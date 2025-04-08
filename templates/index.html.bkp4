@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mentor de Segurança da Informação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="/static/js/script.js"></script>
+  <link rel="icon" href="https://www.svgrepo.com/show/448221/shield-security.svg">
+</head>
+<body class="bg-white text-black dark:bg-gray-900 dark:text-white transition-colors duration-300 min-h-screen flex flex-col items-center p-4">
+
+  <!-- Cabeçalho -->
+  <div class="flex items-center justify-between w-full max-w-2xl mb-4">
+    <h1 class="text-2xl font-bold">Mentor de Segurança da Informação</h1>
+    <!-- Botão modo escuro -->
+    <label class="flex items-center cursor-pointer">
+      <input type="checkbox" id="toggleDarkMode" class="sr-only">
+      <div class="relative">
+        <div class="block bg-gray-600 w-14 h-8 rounded-full"></div>
+        <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition transform"></div>
+      </div>
+    </label>
+  </div>
+
+  <!-- Caixa de chat -->
+  <div id="chatBox" class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow w-full max-w-2xl h-[60vh] overflow-y-auto flex flex-col space-y-2 mb-4 border border-gray-300 dark:border-gray-700"></div>
+
+  <!-- Campo de entrada -->
+  <div class="flex w-full max-w-2xl gap-2">
+    <input type="text" id="userInput" placeholder="Digite sua pergunta..." class="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 dark:text-white">
+    <button id="sendButton" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition">Enviar</button>
+  </div>
+
+  <!-- Botões extras -->
+  <div class="flex gap-4 mt-4">
+    <button id="exportPdf" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition">Exportar PDF</button>
+    <button id="speakLast" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition">Ouvir Resposta</button>
+  </div>
+
+  <!-- Rodapé -->
+  <footer class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+    Desenvolvido com ❤️ para aspirantes em Segurança da Informação
+  </footer>
+
+  <!-- Script do modo escuro -->
+  <script>
+    const toggle = document.getElementById("toggleDarkMode");
+    const dot = document.querySelector(".dot");
+
+    toggle.addEventListener("change", () => {
+      document.documentElement.classList.toggle("dark");
+      dot.classList.toggle("translate-x-6");
+    });
+  </script>
+</body>
+</html>
+

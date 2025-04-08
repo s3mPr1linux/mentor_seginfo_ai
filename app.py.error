@@ -1,0 +1,49 @@
+from flask import Flask, request, jsonify, send_from_directory
+from flask_cors import CORS
+import os
+from dotenv import load_dotenv
+from openai import OpenAI
+import logging
+
+load_dotenv()
+
+app = Flask(__name__, static_folder="static", static_url_path="")
+CORS(app)
+
+# Configurar logging estruturado
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+
+# OpenAI Client
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+@app.route("/")
+def serve_index():
+    return send_from_directory("static", "index.html")
+
+@app.route("/chat", methods=["POST"])
+def chat():
+    data = request.get_json()
+    user_message = data.get("message")
+
+    if not user_message:
+        return jsonify({"error": "Mensagem não fornecida"}), 400
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",  # ou "gpt-4" se você tiver acesso
+            messages=[
+                {"role": "system", "content": "Você é um mentor de Segurança da Informação, experiente e acessível. Ajude iniciantes com dicas, exemplos e clareza."},
+                {"role": "user", "content": user_message}
+            ]
+        )
+        reply = response.choices[0].message.content
+        logging.info(f"Pergunta: {user_message} | Resposta: {reply}")
+        return jsonify({"reply": reply})
+
+    except Exception as e:
+        logging.error(f"Erro ao chamar OpenAI: {e}")
+        return jsonify({"error": str(e)}), 500
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
+

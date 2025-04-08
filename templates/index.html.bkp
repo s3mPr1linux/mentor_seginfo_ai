@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mentor de Segurança da Informação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900 font-sans flex items-center justify-center min-h-screen">
+  <div class="bg-white shadow-lg rounded-xl p-8 w-full max-w-xl">
+    <h1 class="text-2xl font-bold mb-4 text-center text-indigo-600">
+      Mentor de Segurança da Informação
+    </h1>
+
+    <label for="message" class="block mb-2 text-sm font-medium text-gray-700">Digite sua pergunta:</label>
+    <input
+      type="text"
+      id="message"
+      class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      placeholder="Ex: Como começar na área?"
+    />
+
+    <button
+      onclick="sendMessage()"
+      class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+    >
+      Enviar
+    </button>
+
+    <div id="loading" class="hidden mt-4 text-center text-sm text-gray-500">
+      Carregando resposta...
+    </div>
+
+    <div id="response" class="mt-6 p-4 bg-gray-50 rounded-lg border text-sm whitespace-pre-line hidden"></div>
+    <div id="error" class="mt-4 text-red-600 text-sm font-medium hidden"></div>
+  </div>
+
+  <script>
+    async function sendMessage() {
+      const message = document.getElementById("message").value;
+      const responseBox = document.getElementById("response");
+      const errorBox = document.getElementById("error");
+      const loading = document.getElementById("loading");
+
+      responseBox.classList.add("hidden");
+      errorBox.classList.add("hidden");
+      loading.classList.remove("hidden");
+      responseBox.innerText = "";
+      errorBox.innerText = "";
+
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+
+        const data = await res.json();
+        loading.classList.add("hidden");
+
+        if (res.ok) {
+          responseBox.innerText = data.reply;
+          responseBox.classList.remove("hidden");
+        } else {
+          errorBox.innerText = data.error || "Erro ao buscar resposta.";
+          errorBox.classList.remove("hidden");
+        }
+      } catch (err) {
+        loading.classList.add("hidden");
+        errorBox.innerText = "Erro de rede ou servidor indisponível.";
+        errorBox.classList.remove("hidden");
+      }
+    }
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Mentor de Segurança da Informação</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="/static/js/script.js"></script>
+    <link rel="icon" href="https://www.svgrepo.com/show/448221/shield-security.svg">
+</head>
+<body class="bg-white text-black transition-colors duration-300 min-h-screen flex flex-col items-center p-4" id="body">
+    <div class="flex items-center justify-between w-full max-w-2xl mb-4">
+        <h1 class="text-2xl font-bold">Mentor de Segurança da Informação</h1>
+        <label class="flex items-center cursor-pointer">
+            <span class="mr-2 text-sm">Modo Escuro</span>
+            <input type="checkbox" id="toggleDarkMode" class="hidden">
+            <div class="w-10 h-5 flex items-center bg-gray-300 rounded-full p-1 duration-300 ease-in-out">
+                <div class="bg-white w-4 h-4 rounded-full shadow-md transform duration-300 ease-in-out" id="toggleDot"></div>
+            </div>
+        </label>
+    </div>
+
+    <div id="chatBox" class="bg-gray-100 dark:bg-gray-800 text-black dark:text-white p-4 rounded-lg shadow w-full max-w-2xl h-[60vh] overflow-y-auto flex flex-col space-y-2 mb-4 transition-colors"></div>
+
+    <div class="flex w-full max-w-2xl gap-2">
+        <input type="text" id="userInput" placeholder="Digite sua pergunta..." class="flex-1 p-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white">
+        <button id="sendButton" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Enviar</button>
+    </div>
+
+    <div class="flex gap-4 mt-4">
+        <button id="exportPdf" class="bg-green-500 text-white px-4 py-2 rounded-lg">Exportar PDF</button>
+        <button id="speakLast" class="bg-purple-600 text-white px-4 py-2 rounded-lg">Ouvir Resposta</button>
+    </div>
+
+    <footer class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+        Desenvolvido com ❤️ para aspirantes em Segurança da Informação
+    </footer>
+</body>
+</html>
+

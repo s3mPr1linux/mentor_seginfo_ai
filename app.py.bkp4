@@ -1,0 +1,52 @@
+from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
+import openai
+import os
+from dotenv import load_dotenv
+import logging
+
+# Carrega variáveis de ambiente
+load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+# Configura o app
+app = Flask(__name__)
+CORS(app)
+
+# Configuração básica de log
+logging.basicConfig(level=logging.INFO)
+
+# Página principal com interface HTML
+@app.route("/")
+def index():
+    return render_template("index.html")  # Certifique-se de ter templates/index.html
+
+# Rota de ajuda (opcional, para GET)
+@app.route("/api/help", methods=["GET"])
+def api_help():
+    return jsonify({
+        "usage": "Envie um POST para /api com JSON: {\"message\": \"sua pergunta\"}"
+    })
+
+# Rota principal da API (POST)
+@app.route("/api", methods=["POST"])
+def chat_api():
+    data = request.json
+    user_message = data.get("message")
+
+    if not user_message:
+        return jsonify({"error": "Mensagem não fornecida"}), 400
+
+    try:
+        # Faz chamada para OpenAI
+        response = openai.chat.completions.create(
+            model="gpt-3.5-turbo",  # use gpt-4 se tiver acesso
+            messages=[
+                {"role": "system", "content": "Você é um mentor de Segurança da Informação, experiente e acessível. Ajude iniciantes com dicas, exemplos e clareza."},
+                {"role": "user", "content": user_message}
+            ]
+        )
+
+        reply = response.choices[0].message.content
+        return
+

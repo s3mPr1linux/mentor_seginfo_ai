@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mentor de Segurança da Informação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col items-center justify-start p-6 transition-colors duration-300">
+
+  <div class="w-full max-w-2xl">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold">Mentor de Segurança da Informação</h1>
+      <div class="flex items-center gap-2">
+        <span class="text-sm">🌞</span>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" id="darkToggle" class="sr-only peer">
+          <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-500 dark:peer-focus:ring-indigo-400 rounded-full peer dark:bg-gray-600 peer-checked:bg-indigo-600 transition-all"></div>
+          <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow-md transform peer-checked:translate-x-5 transition-transform"></div>
+        </label>
+        <span class="text-sm">🌙</span>
+      </div>
+    </div>
+
+    <textarea id="messageInput" rows="3" class="w-full p-3 rounded-lg border dark:border-gray-700 bg-gray-100 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none mb-4" placeholder="Digite sua pergunta..."></textarea>
+    
+    <button onclick="sendMessage()" class="w-full bg-indigo-600 text-white p-3 rounded-lg hover:bg-indigo-700 transition">Enviar</button>
+    
+    <div id="response" class="mt-6 whitespace-pre-line bg-gray-100 dark:bg-gray-800 p-4 rounded-lg"></div>
+  </div>
+
+  <script src="{{ url_for('static', filename='dark.js') }}"></script>
+</body>
+</html>
+

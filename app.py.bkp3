@@ -1,0 +1,45 @@
+from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
+import openai
+import os
+from dotenv import load_dotenv
+
+# Carregar variáveis do .env
+load_dotenv()
+
+app = Flask(__name__)
+CORS(app)  # Permite chamadas de outros dispositivos na rede
+
+# Configurar a chave da API do OpenAI
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+@app.route("/", methods=["GET"])
+def home():
+    return render_template("index.html")
+
+    if not data or "message" not in data:
+        return jsonify({"error": "Campo 'message' é obrigatório"}), 400
+
+    user_message = data["message"]
+
+    try:
+        response = openai.chat.completions.create(
+            model="gpt-3.5-turbo",  # substitua por gpt-4 se sua conta permitir
+            messages=[
+                {"role": "system", "content": "Você é um mentor de Segurança da Informação, experiente e acessível. Ajude iniciantes com dicas, exemplos e clareza."},
+                {"role": "user", "content": user_message}
+            ]
+        )
+
+        reply = response.choices[0].message.content
+        return jsonify({"reply": reply})
+
+    except openai.APIError as e:
+        return jsonify({"error": f"OpenAI API error: {str(e)}"}), 500
+    except Exception as e:
+        return jsonify({"error": f"Erro interno: {str(e)}"}), 500
+
+if __name__ == "__main__":
+    # Deixa acessível para dispositivos na mesma rede (ex: celular, tablet, etc)
+    app.run(host="0.0.0.0", port=5000, debug=True)
+
